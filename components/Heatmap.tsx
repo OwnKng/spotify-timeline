@@ -9,7 +9,7 @@ const margins = {
   top: 20,
   bottom: 20,
   left: 40,
-  right: 40,
+  right: 50,
 }
 
 const Heatmap = ({
@@ -26,9 +26,9 @@ const Heatmap = ({
 
   if (selected) {
     highlights = dataGrouped.filter(({ date }) => {
-      const [min, max] = selected
+      const { min, max } = selected
 
-      return date >= min && date <= max
+      return date >= new Date(min) && date <= new Date(max)
     }).map((d) => new Date(d.date))
   }
 
@@ -125,7 +125,7 @@ const Heatmap = ({
               y={yScale(y(d.date))}
               width={cellSize}
               height={cellSize}
-              stroke={d.date.toString() === date ? 'var(--color-selected)' : 'none'}
+              stroke={d.date.toString() === date ? 'white' : 'none'}
               strokeWidth={3}
               opacity={highlights ? highlights.map((d) => d.toString()).includes(d.date.toString()) ? 1.0 : 0.3 : 1.0}
               fill={colorScale(d.count)}

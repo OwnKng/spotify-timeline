@@ -34,7 +34,6 @@ export default styled(Navigation)/* css */`
     align-items: center;
     padding: 0 1rem;
     ${elevation[1]};
-    background: var(--color-foreground);
 
     a {
       text-decoration: none;

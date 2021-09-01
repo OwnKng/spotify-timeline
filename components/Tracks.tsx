@@ -1,15 +1,15 @@
 import { scaleThreshold } from '@visx/scale'
 import styled from 'styled-components'
-import { LegendThreshold, LegendItem } from '@visx/legend'
+import { LegendThreshold, LegendItem, LegendLabel } from '@visx/legend'
 import * as d3 from 'd3'
 import ParentSize from '@visx/responsive/lib/components/ParentSize'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Heatmap from './Heatmap'
 import Heatgrid from './Heatgrid'
-import Filter from './Filter'
 
-const Tracks = ({ tracks, className }) => {
-  const [selected, setSelected] = useState([])
+const Tracks = ({ tracks, startDate, className }) => {
+  const [selected, setSelected] = useState({ min: startDate, max: d3.timeFormat('%Y-%m-%d')(new Date()) })
+  const [length, setLength] = useState(tracks.length)
 
   const tracksMap = Array.from(
     d3.group(tracks, (d) => d.date.substring(0, 4)),
@@ -22,8 +22,33 @@ const Tracks = ({ tracks, className }) => {
     range: ['#02A9F3FF', '#28B6F6FF', '#4EC3F7FF', '#80D3F9FF', '#B2E5FCFF', '#E0F4FEFF'],
   })
 
+  useEffect(() => {
+    const newLength = tracks.filter((track) => {
+      const date = new Date(track.date)
+      const { min, max } = selected
+
+      return date >= new Date(min) && date <= new Date(max)
+    })
+
+    setLength(newLength.length)
+  }, [selected])
+
   return (
     <div className={className}>
+      <p className="copy">
+        You've 👍
+        {' '}
+        <span>{length}</span>
+        {' '}
+        tracks between
+        {' '}
+        <span>{d3.timeFormat('%a, %d %B %Y')(new Date(selected.min))}</span>
+        {' '}
+        and
+        {' '}
+        <span>{d3.timeFormat('%a, %d %B %Y')(new Date(selected.max))}</span>
+        .
+      </p>
       <div className="info">
         <div className="legend">
           <p># tracks liked</p>
@@ -35,16 +60,29 @@ const Tracks = ({ tracks, className }) => {
                 <LegendItem
                   key={`legend-quantile-${i}`}
                 >
-                  <svg width={30} height={30}>
-                    <rect fill={label.value} width={30} height={30} />
-                  </svg>
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                  >
+                    <svg width={30} height={30}>
+                      <rect fill={label.value} width={30} height={30} />
+                    </svg>
+                  </div>
                 </LegendItem>
               ))}
             </LegendThreshold>
           </div>
         </div>
         <div className="filter">
-          <Filter startDate="2015-01-01" width={300} height={45} setSelected={setSelected} />
+          <span>
+            Select dates
+          </span>
+          <div className="dates">
+            <input type="date" value={selected.min} onChange={(e) => setSelected({ ...selected, min: e.target.value })} />
+            to
+            <input type="date" value={selected.max} onChange={(e) => setSelected({ ...selected, max: e.target.value })} />
+          </div>
         </div>
       </div>
       <div className="viz">
@@ -95,7 +133,6 @@ export default styled(Tracks)/* css */`
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   padding: 0.5rem 0.5rem;
-  border-bottom: 1px solid var(--color-foreground);
   position: sticky;
   background: var(--color-background);
   top: -1px;
@@ -113,8 +150,26 @@ export default styled(Tracks)/* css */`
 
 .filter {
   grid-area: filter;
-  position: relative;
   justify-self: end;
+
+  .dates {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+  }
+
+  input {
+    padding: 10px 0px;
+
+    ::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    }
+  }
+
+  .labels {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 .viz {
@@ -170,5 +225,13 @@ export default styled(Tracks)/* css */`
   }
 }
 
+.copy {
+  font-size: 1.4rem;
+
+  span {
+      border-bottom: 2px solid var(--color-highlight);
+      color: var(--color-primary-text);
+    }
+}
 
 `

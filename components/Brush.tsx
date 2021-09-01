@@ -2,9 +2,10 @@ import { Drag } from '@visx/drag'
 import { useState, useEffect } from 'react'
 import { min, max } from 'd3'
 import { PatternLines } from '@visx/pattern'
+import styled from 'styled-components'
 
 const Brush = ({
-  scale, width, height, setBrush,
+  scale, width, height, setBrush, className,
 }) => {
   const [start, end] = scale.range()
   const [range, setRange] = useState({ start: scale.invert(start), end: scale.invert(end) })
@@ -23,23 +24,23 @@ const Brush = ({
   }, [range, setRange])
 
   return (
-    <g>
+    <g className={className}>
       <PatternLines
         id="pattern"
         height={6}
         width={6}
-        stroke="white"
+        stroke="#B2E5FCFF"
         strokeWidth={1}
         orientation={['diagonal']}
       />
       <rect
         x={rect.min}
         width={rect.width}
-        y={0}
-        height={height}
+        y={10}
+        height={height - 10}
         fill="url(#pattern)"
-        fillOpacity={0.3}
-        stroke="white"
+        fillOpacity={0.2}
+        stroke="#B2E5FCFF"
         strokeWidth={0.5}
       />
       <Drag
@@ -68,17 +69,16 @@ const Brush = ({
               x1={x}
               x2={x}
               y1={height}
-              y2={0}
+              y2={10}
               stroke="white"
               strokeWidth={2}
             />
             <circle
               cx={x}
-              cy={8}
+              cy={10}
               r={8}
               fill="white"
               fillOpacity={1}
-              stroke={isDragging ? 'white' : 'transparent'}
               strokeWidth={2}
             />
           </g>
@@ -110,17 +110,16 @@ const Brush = ({
               x1={x}
               x2={x}
               y1={height}
-              y2={0}
+              y2={10}
               stroke="white"
               strokeWidth={2}
             />
             <circle
               cx={x}
-              cy={8}
+              cy={10}
               r={8}
               fill="white"
               fillOpacity={1}
-              stroke={isDragging ? 'white' : 'transparent'}
               strokeWidth={2}
             />
           </g>
@@ -130,4 +129,8 @@ const Brush = ({
   )
 }
 
-export default Brush
+export default styled(Brush)`
+  circle {
+    stroke: var(--color-button);
+  }
+`

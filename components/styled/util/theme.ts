@@ -4,7 +4,8 @@ export const theme: DefaultTheme = {
   colors: {
     primary: '#16161e',
     input: '#161C22',
-    background: '#0D1117',
+    background: 'rgba(13,17,23, 1)',
+    backgroundFade: 'rgba(13,17,23, 0.92)',
     foreground: '#161C21',
     middleground: '#F1F1F8',
     border: '#575C63',

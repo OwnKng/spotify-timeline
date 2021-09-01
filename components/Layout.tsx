@@ -14,8 +14,8 @@ export default styled(Layout)`
 
 main {
   width: 95vw;
-  max-width: 1200px;
   margin: 0px auto;
+  max-width: 1280px;
   padding: 0 2rem 4rem 2rem;
   
   @media only screen and (max-width: 500px) {

@@ -10,11 +10,10 @@ const margins = {
 }
 
 const Timeline = ({
-  className, data, width, height, margin = margins,
+  className, data, startDate, width, height, margin = margins,
 }) => {
   // _ create accessors
   const x = (d) => new Date(d.date)
-  const startDate = new Date('2015-01-01')
   const endDate = new Date()
 
   // _ set dimensions
@@ -32,9 +31,9 @@ const Timeline = ({
     <div className={className}>
       <svg width={width} height={height}>
         {data.map((d, i) => (
-          <circle key={`point-${i}`} cx={scale(x(d))} cy={innerHeight} r={10} fill="white" fillOpacity={0.2} strokeOpacity={1.0} strokeWidth={1} />
+          <circle key={`point-${i}`} cx={scale(x(d))} cy={innerHeight} r={8} fill="white" fillOpacity={0.2} strokeOpacity={1.0} strokeWidth={1} />
         ))}
-        <Axis scale={scale} orientation="bottom" top={innerHeight} stroke="white" tickStroke="white" />
+        <Axis scale={scale} orientation="bottom" top={innerHeight} />
       </svg>
     </div>
   )
@@ -48,6 +47,10 @@ export default styled(Timeline)`
 
         circle {
             stroke: var(--color-highlight);
+        }
+
+        line {
+          stroke: var(--color-paragraph);
         }
     }
 `

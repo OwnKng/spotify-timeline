@@ -7,6 +7,7 @@ ${normalize}
 :root {
     --color-primary: ${({ theme }) => theme.colors.primary};
     --color-background: ${({ theme }) => theme.colors.background};
+    --color-background-fade: ${({ theme }) => theme.colors.backgroundFade};
     --color-foreground: ${({ theme }) => theme.colors.foreground};
     --color-middleground: ${({ theme }) => theme.colors.middleground};
     --color-border: ${({ theme }) => theme.colors.border};
@@ -28,17 +29,12 @@ ${normalize}
   html {font-size: 100%} /*16px*/
 
   h1, h2 {
-    color: var(--color-background);
-    background: var(--color-heading);
+    color: var(--color-heading);
     padding: 0 1rem 0 0;
   }
 
-  .title {
-    display: flex; 
-  }
-
   body {
-    background: var(--color-background);
+    background-image: linear-gradient(180deg, var(--color-background-fade), var(--color-background), var(--color-background), var(--color-background));
     font-family: 'Saira', sans-serif;
     font-weight: 400;
     line-height: 1.75;
@@ -46,15 +42,18 @@ ${normalize}
     box-sizing: border-box;
     color: var(--color-paragraph);
     max-width: 100vw;
+    min-height: 100vh;
 
     input {
-      width: 100%;
-      background: var(--color-input);
-      border: 1px solid var(--color-border);
-      border-radius: 3px;
-      color: var(--color-paragraph);
-      padding: 1rem 0rem;
-    }
+        background: var(--color-input);
+        padding: 1rem 5px 5px 5px; 
+        border: none;
+        border-bottom: 3px solid var(--color-border);
+        border-radius: 0px;
+        color: var(--color-heading);
+        font-size: 1.4rem;
+        width: 100%;
+      }
 
     input:focus {
       outline: none;

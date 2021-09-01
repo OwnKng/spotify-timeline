@@ -37,8 +37,10 @@ export const useLibrary = (token: string) => {
   const getArtists = () => {
     const artistsArray: any[] = []
 
-    tracks.map(({ name: track, date, artists }) => artists.map(({ name }) => {
-      artistsArray.push({ date, artist: name, track })
+    tracks.map(({ name: track, date, artists }) => artists.map(({ name, id }) => {
+      artistsArray.push({
+        date, artist: name, artistId: id, track,
+      })
     }))
 
     return { artistsArray }

@@ -12,7 +12,7 @@ type AutocompleteProps = {
 
 const Autocomplete = ({ setValue, items, className }: AutocompleteProps) => (
   <div className={className}>
-    <Downshift initialSelectedItem={items[0]} onChange={(selection) => setValue(selection)} itemToString={(item) => (item || '')}>
+    <Downshift onChange={(selection) => setValue(selection)} itemToString={(item) => (item || '')}>
       {({
         getInputProps,
         getItemProps,
@@ -25,7 +25,6 @@ const Autocomplete = ({ setValue, items, className }: AutocompleteProps) => (
         getRootProps,
       }) => (
         <div className="autocomplete">
-          <label {...getLabelProps()}>Search for an artist</label>
           <div
             style={{ display: 'inline-block', width: '100%' }}
             {...getRootProps({}, { suppressRefError: true })}
@@ -61,8 +60,8 @@ const Autocomplete = ({ setValue, items, className }: AutocompleteProps) => (
 )
 
 export default styled(Autocomplete)/* css */`
-  padding: 1rem 0;
   position: relative;
+  flex-basis: 2;
   
   ul {
     position: absolute;

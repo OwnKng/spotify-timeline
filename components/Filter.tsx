@@ -8,7 +8,7 @@ const margins = {
   top: 10,
   bottom: 10,
   left: 10,
-  right: 10,
+  right: 0,
 }
 
 const Filter = ({
@@ -31,11 +31,8 @@ const Filter = ({
 
   return (
     <div className={className}>
-      <p>
-        highlight dates
-      </p>
       <svg width={width} height={height}>
-        <Axis scale={scale} orientation="bottom" top={innerHeight} stroke="white" tickStroke="white" />
+        <Axis scale={scale} orientation="bottom" top={innerHeight} stroke="#A6AEBD" tickStroke="#A6AEBD" />
         <Brush scale={scale} width={innerWidth} height={innerHeight} setBrush={setSelected} />
       </svg>
     </div>
@@ -43,10 +40,6 @@ const Filter = ({
 }
 
 export default styled(Filter)/* css */`
-  p {
-    margin: 0px 0px 0px 10px;
-  }
-
   span {
     align-self: center;
     margin-right: 5px;
