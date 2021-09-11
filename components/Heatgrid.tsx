@@ -14,23 +14,16 @@ const margin = {
 
 const Heatgrid = ({
   className,
-  year, data, selected, accessor, width, height, colorScale,
+  year, data, accessor, width, height, colorScale,
 }: any) => {
+  if (width < 100) return null
+
   // _ format the data
-  let highlights: []
 
   const dataGrouped = Array.from(
     d3.rollup(data, (v) => v.length, accessor),
     ([key, value]) => ({ date: new Date(key), count: value }),
   )
-
-  if (selected) {
-    highlights = dataGrouped.filter(({ date }) => {
-      const { min, max } = selected
-
-      return date >= new Date(min) && date <= new Date(max)
-    }).map((d) => new Date(d.date))
-  }
 
   const router = useRouter()
 
@@ -121,7 +114,6 @@ const Heatgrid = ({
               height={innerHeight / 31}
               stroke={d.date.toString() === date ? 'white' : 'none'}
               strokeWidth={3}
-              opacity={highlights ? highlights.map((d) => d.toString()).includes(d.date.toString()) ? 1.0 : 0.3 : 1.0}
               fill={colorScale(d.count)}
               onMouseEnter={() => handleMouseEnter(d)}
               onMouseLeave={() => handleMouseLeave()}

@@ -3,13 +3,15 @@ import { useState, useEffect } from 'react'
 export const useLibrary = (token: string) => {
   const [tracks, setTracks] = useState([])
   const [artists, setArtists] = useState([])
+  const [artistGenres, setArtistGenres] = useState([])
   const [loading, setLoading] = useState(true)
+  const [loadingTracks, setLoadingTracks] = useState(true)
   const [error, setError] = useState(false)
 
   const getTracks = async (url: string) => {
     try {
       if (!url) {
-        setLoading(false)
+        setLoadingTracks(false)
         return []
       }
 
@@ -30,7 +32,7 @@ export const useLibrary = (token: string) => {
       getTracks(next)
     } catch (err) {
       setError(err)
-      setLoading(false)
+      setLoadingTracks(false)
     }
   }
 
@@ -46,6 +48,32 @@ export const useLibrary = (token: string) => {
     return { artistsArray }
   }
 
+  const getGenres = async (artistsArray: any[], i: number) => {
+    const artistsFiltered = artists.slice(i, i + 50)
+
+    if (!artistsFiltered.length) {
+      setLoading(false)
+      return []
+    }
+
+    const artistsWithGenres = artistsFiltered.map(({ artistId }) => (artistId)).join(',')
+
+    try {
+      const resp = await fetch(`https://api.spotify.com/v1/artists?ids=${artistsWithGenres}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      const { artists } = await resp.json()
+      const genres = artists.map(({ id, name, genres }) => ({ id, name, genres }))
+      setArtistGenres((prevState) => ([...prevState, ...genres]))
+      getGenres(artistsArray, i + 50)
+    } catch (err) {
+      setError(err)
+    }
+  }
+
   useEffect(() => {
     getTracks('https://api.spotify.com/v1/me/tracks?limit=50')
   }, [])
@@ -55,9 +83,15 @@ export const useLibrary = (token: string) => {
       const { artistsArray } = getArtists()
       setArtists(artistsArray)
     }
-  }, [loading])
+  }, [loadingTracks])
+
+  useEffect(() => {
+    if (!loadingTracks) {
+      getGenres(artists, 0)
+    }
+  }, [artists])
 
   return {
-    tracks, artists, loading, error,
+    tracks, artists, artistGenres, loading, error,
   }
 }

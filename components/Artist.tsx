@@ -25,7 +25,7 @@ const Artist = ({
   return (
     <div className={className}>
       <div className="form">
-        <span>When did I fist like</span>
+        <span>When did you fist like</span>
         <Autocomplete items={[...Array.from(artistMap, ([key]) => key)]} setValue={setArtist} />
         <span>?</span>
       </div>

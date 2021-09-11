@@ -13,9 +13,9 @@ const margins = {
 }
 
 const Heatmap = ({
-  year, data, selected, accessor, width, height, margin = margins, className, colorScale,
+  year, data, accessor, width, height, margin = margins, className, colorScale,
 }) => {
-  let highlights: []
+  if (width < 100) return null
 
   const router = useRouter()
 
@@ -23,14 +23,6 @@ const Heatmap = ({
     d3.rollup(data, (v) => v.length, accessor),
     ([key, value]) => ({ date: new Date(key), count: value }),
   )
-
-  if (selected) {
-    highlights = dataGrouped.filter(({ date }) => {
-      const { min, max } = selected
-
-      return date >= new Date(min) && date <= new Date(max)
-    }).map((d) => new Date(d.date))
-  }
 
   // _ set dimensions
   const innerWidth = width - margin.left - margin.right
@@ -127,7 +119,6 @@ const Heatmap = ({
               height={cellSize}
               stroke={d.date.toString() === date ? 'white' : 'none'}
               strokeWidth={3}
-              opacity={highlights ? highlights.map((d) => d.toString()).includes(d.date.toString()) ? 1.0 : 0.3 : 1.0}
               fill={colorScale(d.count)}
               rx={cellSize * 0.15}
               onMouseEnter={() => handleMouseEnter(d)}

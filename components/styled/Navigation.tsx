@@ -13,7 +13,10 @@ const Navigation = ({ className }: navigationProps) => {
   return (
     <nav className={className}>
       <Link href="/dashboard">
-        <a>LikedTracks</a>
+        <a>
+          My
+          <img src="spotify-logo.svg" alt="spotify-logo" />
+        </a>
       </Link>
       <div>
         {session ? (
@@ -36,9 +39,16 @@ export default styled(Navigation)/* css */`
     ${elevation[1]};
 
     a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       text-decoration: none;
       font-size: 1.8rem;
       color: var(--color-heading);
+    }
+
+    img {
+      height: 30px;
     }
   
     .account {

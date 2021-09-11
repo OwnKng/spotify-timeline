@@ -79,5 +79,6 @@ export default styled(Autocomplete)/* css */`
     border-left: 1px solid var(--color-border);
     border-right: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
+    z-index: 10;
   }
 `

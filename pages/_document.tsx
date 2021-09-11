@@ -19,7 +19,7 @@ export default class MyDocument extends Document {
         styles: (
           <>
             <link
-              href="https://fonts.googleapis.com/css?family=Archivo+Black|Saira:400"
+              href="https://fonts.googleapis.com/css?family=Saira:400"
               rel="stylesheet"
             />
             {initialProps.styles}

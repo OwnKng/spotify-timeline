@@ -7,12 +7,13 @@ import { useLibrary } from '../../hooks/useLibrary'
 import Tracks from '../../components/Tracks'
 import AddedTracks from '../../components/AddedTracks'
 import Discovered from '../../components/Discovered'
+import Genres from '../../components/Genres'
 
 const Dashboard = ({
   className, id, name, token, picture,
 }) => {
   const {
-    tracks, artists, loading, error,
+    tracks, artists, artistGenres, loading, error,
   } = useLibrary(token)
 
   if (loading) return <p>Loading...</p>
@@ -22,13 +23,24 @@ const Dashboard = ({
   const datesMap = d3.group(tracks, (d) => d.date)
   const startDate = d3.min(tracks, (d) => d.date)
 
-  if (id) return (<AddedTracks tracks={datesMap.get(id.toString())} />)
+  if (id) return (<AddedTracks date={id} tracks={datesMap.get(id.toString())} />)
+
+  const artistsMap = d3.rollup(artists, (v) => d3.min(v, (d) => d.date), (d) => d.artistId)
+
+  const genresMap = artistGenres
+    .map(({ id, name, genres }) => ({
+      id, name, genres, date: artistsMap.get(id),
+    }))
+    .reduce((acc, cur) => {
+      const ids = acc.map(({ id }) => id)
+      return ids.includes(cur.id) ? acc : [...acc, cur]
+    }, [])
 
   return (
     <div className={className}>
       <div className="title">
         <h1>your liked tracks</h1>
-        <span>Discover when you 👍 liked an artist</span>
+        <span>Discover when you 👍 an artist</span>
       </div>
       <div className="grid">
         <div className="profile">
@@ -40,15 +52,12 @@ const Dashboard = ({
         </div>
       </div>
       <div>
-        <Discovered artists={artists} token={token} />
+        <Discovered artists={artists} token={token} startDate={startDate} />
+      </div>
+      <div>
+        <Genres genres={genresMap} startDate={startDate} />
       </div>
       <div className="activity">
-        <div className="activity-title">
-          <div>
-            <h2>Your activity</h2>
-          </div>
-          <span>When you added tracks to your library</span>
-        </div>
         <Tracks tracks={tracks} startDate={startDate} />
       </div>
       <p className="footer">
@@ -122,7 +131,7 @@ export default styled(Dashboard)/* css */`
   }
 
   .activity {
-    padding: 3rem 20px 4rem 20px;
+    padding: 3rem 0px 4rem 0px;
   }
 
   .footer {
@@ -142,4 +151,11 @@ export default styled(Dashboard)/* css */`
       grid-auto-flow: rows;   
     }
   }
+
+.highlight {
+    font-size: 1.5rem;
+    border-bottom: 3px solid var(--color-highlight);
+    color: var(--color-primary-text);
+}
+
 `
