@@ -16,6 +16,7 @@ const Navigation = ({ className }: navigationProps) => {
         <a>
           My
           <img src="spotify-logo.svg" alt="spotify-logo" />
+          Tracks
         </a>
       </Link>
       <div>
@@ -41,9 +42,10 @@ export default styled(Navigation)/* css */`
     a {
       display: flex;
       align-items: center;
+      text-transform: uppercase;
       gap: 10px;
       text-decoration: none;
-      font-size: 1.8rem;
+      font-size: 1.4rem;
       color: var(--color-heading);
     }
 

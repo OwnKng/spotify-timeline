@@ -8,6 +8,7 @@ import Tracks from '../../components/Tracks'
 import AddedTracks from '../../components/AddedTracks'
 import Discovered from '../../components/Discovered'
 import Genres from '../../components/Genres'
+import Loading from '../../components/Loading'
 
 const Dashboard = ({
   className, id, name, token, picture,
@@ -16,7 +17,7 @@ const Dashboard = ({
     tracks, artists, artistGenres, loading, error,
   } = useLibrary(token)
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Loading />
 
   if (error) return <p>An Error occurred</p>
 
@@ -65,7 +66,12 @@ const Dashboard = ({
         {' '}
         <a href="https://ownkng.dev/">Owen King</a>
         {' '}
-        using NextJS and Spotify's Web API
+        using
+        {' '}
+        <a href="https://nextjs.org/">Next.js </a>
+        and
+        {' '}
+        <a href="https://developer.spotify.com/documentation/web-api/">Spotify's Web API</a>
       </p>
     </div>
   )
@@ -80,7 +86,7 @@ export const getServerSideProps = async (context: any) => {
     return {
       redirect: {
         permanent: false,
-        destination: '/signin',
+        destination: '/',
       },
     }
   }
@@ -127,7 +133,7 @@ export default styled(Dashboard)/* css */`
 
   .artists {
     grid-area: artists;
-    padding: 10px 20px;
+    padding: 10px 0px;
   }
 
   .activity {
@@ -136,6 +142,7 @@ export default styled(Dashboard)/* css */`
 
   .footer {
     margin-top: 3rem;
+    margin-bottom: 0px;
     text-align: center;
 
     a {

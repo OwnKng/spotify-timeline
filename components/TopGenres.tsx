@@ -5,7 +5,7 @@ import { useTooltip, TooltipWithBounds } from '@visx/tooltip'
 import { useCallback } from 'react'
 
 const TopGenres = ({
-  data, height, width, genres, className, colorScale, startDate, margin = {
+  data, width, genres, className, colorScale, startDate, margin = {
     top: 180, left: 100, right: 10, bottom: 10,
   },
 }) => {
@@ -27,16 +27,18 @@ const TopGenres = ({
     formatted = formatted.filter((d) => top5.includes(d.genre))
   }
 
-  // _ dimensions
-  const innerWidth = width - margin.left - margin.right
-  const innerHeight = height - margin.top - margin.bottom
-
   // _ generate a sequence on months
   startDate = new Date(startDate)
   const endDate = new Date()
   const months = d3.timeMonths(d3.timeMonth.floor(startDate), endDate)
 
   const years = d3.utcYears(startDate, new Date())
+
+  const height = months.length * 10 + margin.top
+
+  // _ dimensions
+  const innerWidth = width - margin.left - margin.right
+  const innerHeight = height - margin.top - margin.bottom
 
   // _ accessors
   const x = (d) => d.genre

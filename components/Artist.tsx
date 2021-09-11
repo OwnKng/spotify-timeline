@@ -27,7 +27,6 @@ const Artist = ({
       <div className="form">
         <span>When did you fist like</span>
         <Autocomplete items={[...Array.from(artistMap, ([key]) => key)]} setValue={setArtist} />
-        <span>?</span>
       </div>
       {artist ? (
         <ArtistDetails artist={artist} tracks={artistMap.get(artist)} startDate={startDate} token={token} />
@@ -47,8 +46,15 @@ const Artist = ({
 export default styled(Artist)/* css */`
   .form {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr;
     gap: 15px;
     align-items: flex-end;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .form {
+      grid-template-columns: 1fr;
+      grid-auto-flow: rows;
+    }
   }
 `

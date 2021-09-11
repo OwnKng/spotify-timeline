@@ -21,6 +21,8 @@ export const useLibrary = (token: string) => {
         },
       })
 
+      console.log(await resp.headers)
+
       const { items, next } = await resp.json()
 
       const itemsCleaned = items.map(({ added_at, track }) => {
@@ -31,6 +33,7 @@ export const useLibrary = (token: string) => {
       setTracks((prevState) => ([...prevState, ...itemsCleaned]))
       getTracks(next)
     } catch (err) {
+      console.log(err)
       setError(err)
       setLoadingTracks(false)
     }
@@ -70,6 +73,7 @@ export const useLibrary = (token: string) => {
       setArtistGenres((prevState) => ([...prevState, ...genres]))
       getGenres(artistsArray, i + 50)
     } catch (err) {
+      console.log(err)
       setError(err)
     }
   }

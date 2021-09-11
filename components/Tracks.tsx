@@ -24,7 +24,7 @@ const Tracks = ({ tracks, className }) => {
       <div className={className}>
         <div className="activity-title">
           <div>
-            <h2>Your activity</h2>
+            <h1>Your activity</h1>
           </div>
           <span>When you added tracks to your library</span>
         </div>
@@ -106,6 +106,10 @@ const Tracks = ({ tracks, className }) => {
 }
 
 export default styled(Tracks)/* css */`
+h1 {
+  text-transform: uppercase;
+}
+
 h5 {
   text-transform: uppercase;
   font-size: 1.1rem;

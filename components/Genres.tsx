@@ -78,7 +78,7 @@ const Genres = ({ startDate, genres, className }) => {
         </div>
         <div className="viz">
           <ParentSize>
-            {({ width, height }) => <TopGenres data={topGenres} genres={genres} startDate={startDate} width={width} height={height} colorScale={colorScale} /> }
+            {({ width, height }) => <TopGenres data={topGenres} genres={genres} startDate={startDate} width={width} colorScale={colorScale} /> }
           </ParentSize>
         </div>
       </div>
@@ -123,5 +123,5 @@ h1 {
   text-transform: uppercase;
 }
 
-margin-bottom: 4rem;
+margin-bottom: 8rem;
 `

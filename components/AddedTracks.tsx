@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import * as d3 from 'd3'
 import styled from 'styled-components'
 import { elevation } from './styled/util'
+import { Button } from './styled/Button'
 
 type AddedTracksProps = {
     date: string,
@@ -14,7 +15,7 @@ const AddedTracks = ({ date, tracks, className }: AddedTracksProps) => {
 
   return (
     <div className={className}>
-      <button onClick={() => router.push('/dashboard')}>Back</button>
+      <Button onClick={() => router.push('/dashboard')}>Back</Button>
       <h1>{d3.timeFormat('%A, %d %B %Y')(new Date(date))}</h1>
       <p>
         You addded
