@@ -136,7 +136,7 @@ const Heatmap = ({
             x={0}
             y={yScale(d + 0.5)}
           >
-            {d % 2 == 1 ? formatDay(d) : ''}
+            {d % 2 === 1 ? formatDay(d) : ''}
           </text>
         ))}
         {months.map(({ label, position }) => (
